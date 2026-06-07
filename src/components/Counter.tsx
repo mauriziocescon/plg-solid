@@ -27,8 +27,6 @@ export default function Counter() {
   const [count, setCount] = createSignal(0);
   const [active, setActive] = createSignal(true);
 
-  setCount('');
-
   return (
     <div ref={clickOutside(() => setActive(false))}>
       <button
@@ -39,7 +37,7 @@ export default function Counter() {
       >
         Clicks: {count()}
       </button>
-      {active() && <p ref={logValue()}>Active! Click outside to dismiss.</p>}
+      {active() && <p ref={clickOutside(() => setActive(false))}>Active! Click outside to dismiss.</p>}
     </div>
   );
 }
