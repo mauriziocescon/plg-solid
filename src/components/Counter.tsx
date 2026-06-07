@@ -15,9 +15,19 @@ function autofocus() {
   return (el: HTMLElement) => el.focus();
 }
 
+function logValue() {
+  return (el: HTMLElement & {value: string }) => {
+    const log = () => console.log(el.value);
+    el.addEventListener('input', log);
+    onCleanup(() => el.removeEventListener("input", log));
+  }
+}
+
 export default function Counter() {
   const [count, setCount] = createSignal(0);
   const [active, setActive] = createSignal(true);
+
+  setCount('');
 
   return (
     <div ref={clickOutside(() => setActive(false))}>
@@ -29,7 +39,7 @@ export default function Counter() {
       >
         Clicks: {count()}
       </button>
-      {active() && <p>Active! Click outside to dismiss.</p>}
+      {active() && <p ref={logValue()}>Active! Click outside to dismiss.</p>}
     </div>
   );
 }

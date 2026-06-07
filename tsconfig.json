@@ -11,9 +11,11 @@
     "strict": true,
     "noEmit": true,
     "types": ["vite/client"],
+    "skipLibCheck": true,
     "isolatedModules": true,
     "paths": {
       "~/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src"]
 }
