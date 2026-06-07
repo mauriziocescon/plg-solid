@@ -2,7 +2,7 @@ import { createSignal, onCleanup } from "solid-js";
 import "./Counter.css";
 
 function clickOutside(handler: () => void) {
-  return (el: HTMLSpanElement) => {
+  return (el: HTMLElement) => {
     const onClick = (e: Event) => {
       if (!el.contains(e.target as Node)) handler();
     };
@@ -28,7 +28,7 @@ export default function Counter() {
   const [active, setActive] = createSignal(true);
 
   return (
-    <div ref={clickOutside(() => setActive(false))}>
+    <div ref={[clickOutside(() => setActive(false))]}>
       <button
         class="increment"
         ref={autofocus()}
@@ -37,7 +37,7 @@ export default function Counter() {
       >
         Clicks: {count()}
       </button>
-      {active() && <p ref={clickOutside(() => setActive(false))}>Active! Click outside to dismiss.</p>}
+      {active() && <p ref={[clickOutside(() => setActive(false))]}>Active! Click outside to dismiss.</p>}
     </div>
   );
 }
