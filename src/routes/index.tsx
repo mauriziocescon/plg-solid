@@ -1,19 +1,24 @@
-import { Title } from "@solidjs/meta";
-import Counter from "~/components/Counter";
+import { Title } from '@solidjs/meta';
+import Counter from '../components/Counter';
+import logo from '../logo.svg';
 
 export default function Home() {
   return (
     <main>
-      <Title>Hello World</Title>
-      <h1>Hello world!</h1>
+      <Title>Home - Solid App</Title>
+      <img src={logo} class="logo" alt="Solid logo" />
+      <h1>Hello Solid!</h1>
       <Counter />
       <p>
-        Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank">
-          start.solidjs.com
-        </a>{" "}
-        to learn how to build SolidStart apps.
+        Edit <code>src/routes/index.tsx</code> and save to reload.
       </p>
+      <a
+        href="https://v2.solidjs.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn Solid
+      </a>
     </main>
   );
 }

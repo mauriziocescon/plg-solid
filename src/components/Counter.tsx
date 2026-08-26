@@ -1,43 +1,85 @@
-import { createSignal, onCleanup } from "solid-js";
-import "./Counter.css";
+import { createEffect, createSignal, Ref } from 'solid-js';
+import './Counter.css';
 
+// clickOutside: the listener depends on the element, so we capture it in
+// apply, then do the subscribe/cleanup in setup via an effect keyed on `el`.
 function clickOutside(handler: () => void) {
-  return (el: HTMLElement) => {
-    const onClick = (e: Event) => {
-      if (!el.contains(e.target as Node)) handler();
-    };
-    document.addEventListener("click", onClick);
-    onCleanup(() => document.removeEventListener("click", onClick));
-  };
+    const [el, setEl] = createSignal<HTMLElement>();
+
+    // Setup phase (owned): subscription + cleanup live here.
+    createEffect(
+        () => el(),
+        (node) => {
+            if (!node) return;
+            const onClick = (e: Event) => {
+                if (!node.contains(e.target as Node)) handler();
+            };
+            document.addEventListener('click', onClick);
+            return () => document.removeEventListener('click', onClick); // cleanup
+        },
+    );
+
+    // Apply phase (unowned): just hand the element to setup.
+    return (node: HTMLElement) => setEl(node);
 }
 
+// autofocus: no reactive state, so setup is empty; apply just focuses.
 function autofocus() {
-  return (el: HTMLElement) => el.focus();
+    // Apply phase only — pure DOM write.
+    return (el: HTMLElement) => el.focus();
 }
 
+// logValue: subscription + cleanup belong in setup; apply forwards the element.
 function logValue() {
-  return (el: HTMLElement & {value: string }) => {
-    const log = () => console.log(el.value);
-    el.addEventListener('input', log);
-    onCleanup(() => el.removeEventListener("input", log));
-  }
+    const [el, setEl] = createSignal<HTMLInputElement>();
+
+    // Setup phase (owned).
+    createEffect(
+        () => el(),
+        (node) => {
+            if (!node) return;
+            const log = () => console.log(node.value);
+            node.addEventListener('input', log);
+            return () => node.removeEventListener('input', log);
+        },
+    );
+
+    // Apply phase (unowned).
+    return (node: HTMLInputElement) => setEl(node);
+}
+
+interface ButtonProps {
+    ref?: Ref<HTMLButtonElement>;
+}
+
+function Button(props: ButtonProps) {
+    return (
+        <button
+            class="increment"
+            ref={[props.ref]}
+            type="button">
+            Clicks
+        </button>
+    );
 }
 
 export default function Counter() {
-  const [count, setCount] = createSignal(0);
-  const [active, setActive] = createSignal(true);
+    const [count, setCount] = createSignal(0);
+    const [active, setActive] = createSignal(true);
 
-  return (
-    <div ref={[clickOutside(() => setActive(false))]}>
-      <button
-        class="increment"
-        ref={autofocus()}
-        onClick={() => setCount(count() + 1)}
-        type="button"
-      >
-        Clicks: {count()}
-      </button>
-      {active() && <p ref={[clickOutside(() => setActive(false))]}>Active! Click outside to dismiss.</p>}
-    </div>
-  );
+    return (
+        <div ref={clickOutside(() => setActive(false))}>
+            <button
+                class="increment"
+                ref={[autofocus()]}
+                onClick={() => setCount(count() + 1)}
+                type="button"
+            >
+                Clicks: {count()}
+            </button>
+            {active() && <p ref={clickOutside(() => setActive(false))}>Active! Click outside to dismiss.</p>}
+
+            <Button ref={[logValue()]} />
+        </div>
+    );
 }
