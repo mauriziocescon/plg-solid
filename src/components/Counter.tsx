@@ -79,7 +79,7 @@ export default function Counter() {
             </button>
             {active() && <p ref={clickOutside(() => setActive(false))}>Active! Click outside to dismiss.</p>}
 
-            <Button ref={[logValue()]} />
+            <Button ref={[autofocus()]} />
         </div>
     );
 }
