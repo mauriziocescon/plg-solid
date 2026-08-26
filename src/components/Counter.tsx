@@ -1,4 +1,4 @@
-import { createEffect, createSignal, Ref } from 'solid-js';
+import { createEffect, createSignal, ParentProps, Ref } from 'solid-js';
 import './Counter.css';
 
 function clickOutside(handler: () => void) {
@@ -44,13 +44,13 @@ function logValue() {
     return (node: HTMLInputElement) => setEl(node);
 }
 
-function Button(props: { ref?: Ref<HTMLButtonElement>, label: string }) {
+function Button(props: ParentProps<{ ref?: Ref<HTMLButtonElement> }>) {
     return (
         <button
             class="increment"
             ref={[props.ref]}
             type="button">
-            {props.label}
+            {props.children}
         </button>
     );
 }
@@ -77,7 +77,7 @@ export default function Counter() {
             </button>
 
             <p>Click outside for triggering directives on Button!</p>
-            <Button ref={behaviours} label={'Button'} />
+            <Button ref={behaviours}>Button</Button>
         </>
     );
 }
