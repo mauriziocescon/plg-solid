@@ -1,8 +1,6 @@
 import { createEffect, createSignal, Ref } from 'solid-js';
 import './Counter.css';
 
-// clickOutside: the listener depends on the element, so we capture it in
-// apply, then do the subscribe/cleanup in setup via an effect keyed on `el`.
 function clickOutside(handler: () => void) {
     const [el, setEl] = createSignal<HTMLElement>();
 
@@ -23,13 +21,11 @@ function clickOutside(handler: () => void) {
     return (node: HTMLElement) => setEl(node);
 }
 
-// autofocus: no reactive state, so setup is empty; apply just focuses.
 function autofocus() {
     // Apply phase only — pure DOM write.
     return (el: HTMLElement) => el.focus();
 }
 
-// logValue: subscription + cleanup belong in setup; apply forwards the element.
 function logValue() {
     const [el, setEl] = createSignal<HTMLInputElement>();
 
@@ -48,17 +44,13 @@ function logValue() {
     return (node: HTMLInputElement) => setEl(node);
 }
 
-interface ButtonProps {
-    ref?: Ref<HTMLButtonElement>;
-}
-
-function Button(props: ButtonProps) {
+function Button(props: { ref?: Ref<HTMLButtonElement>, label: string }) {
     return (
         <button
             class="increment"
             ref={[props.ref]}
             type="button">
-            Clicks
+            {props.label}
         </button>
     );
 }
@@ -67,19 +59,25 @@ export default function Counter() {
     const [count, setCount] = createSignal(0);
     const [active, setActive] = createSignal(true);
 
+    const directives = [
+        clickOutside(() => alert('Yeah!')),
+        clickOutside(() => setActive(false)),
+    ];
+
     return (
-        <div ref={clickOutside(() => setActive(false))}>
+        <>
+            {active() && <p ref={[]}>Active! Click outside to dismiss.</p>}
+
             <button
                 class="increment"
                 ref={[autofocus()]}
                 onClick={() => setCount(count() + 1)}
-                type="button"
-            >
+                type="button">
                 Clicks: {count()}
             </button>
-            {active() && <p ref={clickOutside(() => setActive(false))}>Active! Click outside to dismiss.</p>}
 
-            <Button ref={[autofocus()]} />
-        </div>
+            <p>Click outside for triggering directives on Button!</p>
+            <Button ref={directives} label={'Button'} />
+        </>
     );
 }

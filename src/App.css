@@ -34,18 +34,6 @@ main {
   padding: 3rem 1rem;
 }
 
-.logo {
-  animation: logo-spin infinite 20s linear;
-  height: 24vmin;
-  pointer-events: none;
-}
-
-.increment {
-  font-size: 1rem;
-  padding: 0.5rem 1.5rem;
-  cursor: pointer;
-}
-
 main a {
   color: #1d5f91;
   font-weight: 600;
@@ -63,13 +51,4 @@ a:focus-visible {
   outline: 3px solid #0284c7;
   outline-offset: 3px;
   border-radius: 0.2rem;
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
