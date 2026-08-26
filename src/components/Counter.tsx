@@ -59,7 +59,7 @@ export default function Counter() {
     const [count, setCount] = createSignal(0);
     const [active, setActive] = createSignal(true);
 
-    const directives = [
+    const behaviours = [
         clickOutside(() => alert('Yeah!')),
         clickOutside(() => setActive(false)),
     ];
@@ -77,7 +77,7 @@ export default function Counter() {
             </button>
 
             <p>Click outside for triggering directives on Button!</p>
-            <Button ref={directives} label={'Button'} />
+            <Button ref={behaviours} label={'Button'} />
         </>
     );
 }
