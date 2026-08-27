@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
+    // General
+    "jsx": "preserve",
+    "jsxImportSource": "@solidjs/web",
     "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+
+    // Modules
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "allowJs": true,
-    "strict": true,
-    "noEmit": true,
-    "types": ["vite/client"],
-    "skipLibCheck": true,
     "isolatedModules": true,
-    "paths": {
-      "~/*": ["./src/*"]
-    }
-  },
-  "include": ["src"]
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+
+    // Type Checking & Safety
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"]
+  }
 }
