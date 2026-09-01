@@ -1,7 +1,5 @@
 import { createEffect, createSignal } from 'solid-js';
 
-import './Counter.css';
-
 import Button from './Button';
 
 function clickOutside(handler: () => void) {
@@ -62,7 +60,7 @@ export default function Counter() {
 
             <Button
                 type="button"
-                class="increment"
+                style={{ 'background-color': 'red' }}
                 onClick={() => setCount(count() + 1)}
                 ref={behaviours}>
                 Clicks: {count()}
