@@ -1,10 +1,10 @@
-import { JSX, omit, ParentProps, Ref } from 'solid-js';
+import { omit, ParentProps, Ref } from 'solid-js';
+import { JSX } from '@solidjs/web';
 import './Button.css';
 
 export type ButtonProps = ParentProps<
-    JSX.ButtonHTMLAttributes<HTMLButtonElement> & {
-    ref?: Ref<HTMLButtonElement>;
-}
+    JSX.ButtonHTMLAttributes<HTMLButtonElement> &
+    { ref?: Ref<HTMLButtonElement> }
 >;
 
 export default function Button(props: ButtonProps) {
