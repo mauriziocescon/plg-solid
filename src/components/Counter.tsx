@@ -45,7 +45,7 @@ function logValue() {
     return (node: HTMLInputElement) => setEl(node);
 }
 
-function backgroundColor(color: string = 'red') {
+function backgroundColor(color: string = 'green') {
     const [el, setEl] = createSignal<HTMLElement>();
 
     // Setup phase (owned): apply the color and restore the previous value on cleanup.
@@ -80,10 +80,10 @@ export default function Counter() {
             {active() && <p>Active! Click outside to dismiss.</p>}
 
             <Button
-                ref={behaviours}
+                ref={[backgroundColor()]}
                 style="background-color: pink"
                 class="btn-variant">
-                Clicks: {count()}
+                Click me!
             </Button>
 
             <Button
