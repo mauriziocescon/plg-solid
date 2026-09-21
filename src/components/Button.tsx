@@ -18,7 +18,7 @@ export default function Button(props: ButtonProps) {
         <button
             {...rest}
             ref={[props.ref]}
-            style={derivedStyle}
+            style={derivedStyle()}
             class={derivedClass()}>
             {props.children}
         </button>
