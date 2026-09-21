@@ -52,3 +52,12 @@ a:focus-visible {
   outline-offset: 3px;
   border-radius: 0.2rem;
 }
+
+
+.btn {
+  background-color: blue;
+}
+
+.btn-variant {
+  background-color: red;
+}
